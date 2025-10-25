@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelos - SIOMA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+    }
+
+    .card h2 {
+      color: #333;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    form {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      color: #555;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    label small {
+      color: #999;
+      font-weight: 400;
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"] {
+      padding: 0.9rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input[type="file"] {
+      padding: 0.9rem;
+      border: 2px dashed #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      background: #f8f9ff;
+      cursor: pointer;
+    }
+
+    input[type="file"]:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    input[type="text"]:focus,
+    input[type="datetime-local"]:focus,
+    input[type="file"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    button[type="submit"],
+    .delete-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      margin-top: 0.5rem;
+    }
+
+    button[type="submit"]:hover,
+    .delete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    button[type="submit"]:active,
+    .delete-btn:active {
+      transform: translateY(0);
+    }
+
+    .delete-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+      box-shadow: 0 4px 15px rgba(245, 101, 101, 0.4);
+      margin: 0;
+    }
+
+    .delete-btn:hover {
+      box-shadow: 0 6px 20px rgba(245, 101, 101, 0.6);
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-header h2 {
+      color: #333;
+      font-size: 1.5rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .table-count {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    thead tr th {
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    thead tr th:first-child {
+      border-top-left-radius: 12px;
+    }
+
+    thead tr th:last-child {
+      border-top-right-radius: 12px;
+    }
+
+    tbody tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    tbody tr:hover {
+      background: #f8f9ff;
+      transform: scale(1.01);
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr td {
+      padding: 1rem;
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    tbody tr td:first-child {
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    /* Estilos para rutas largas */
+    .file-path {
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #666;
+      display: block;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .file-path:hover {
+      color: #667eea;
+      text-decoration: underline;
+    }
+
+    .file-path-tooltip {
+      position: relative;
+    }
+
+    .file-path-tooltip:hover::after {
+      content: attr(data-fullpath);
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background: #333;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      white-space: normal;
+      word-break: break-all;
+      z-index: 1000;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: slideDown 0.2s ease-out;
+    }
+
+    .actions {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      background: #f8f9ff;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state-text {
+      font-size: 1.1rem;
+    }
+
+    .file-info {
+      background: #f8f9ff;
+      border-left: 4px solid #667eea;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .file-info strong {
+      color: #667eea;
+    }
+
+    /* Modal para último modelo */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      animation: slideDown 0.3s ease-out;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .modal-header h2 {
+      color: #333;
+      font-size: 1.8rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .close-modal {
+      background: #f0f0f0;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: #666;
+    }
+
+    .close-modal:hover {
+      background: #667eea;
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .model-details {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .detail-item {
+      background: #f8f9ff;
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .detail-label {
+      font-size: 0.85rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-value {
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    .json-code {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1.5rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #999;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 4px solid #c33;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .card,
+      .table-container,
+      .actions {
+        padding: 1.5rem;
+      }
+
+      table {
+        font-size: 0.85rem;
+      }
+
+      thead tr th,
+      tbody tr td {
+        padding: 0.75rem 0.5rem;
+      }
+
+      .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .file-path {
+        max-width: 150px;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+      }
+
+      .modal-header h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      form {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-group:nth-last-child(2) {
+        grid-column: 1 / -1;
+      }
+
+      button[type="submit"] {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 Gestión de Modelos</h1>
+
+    <div class="card">
+      <h2>📤 Subir Nuevo Modelo</h2>
+      <form action="/modelos" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Versión</label>
+          <input type="text" name="version" placeholder="v1.0.0" required />
+        </div>
+        <div class="form-group">
+          <label>Fecha</label>
+          <input type="datetime-local" id="fecha-local" required />
+          <input type="hidden" name="fecha" id="fecha-hidden" />
+        </div>
+        <div class="form-group">
+          <label>Archivo del Modelo <small>(selecciona el archivo a subir)</small></label>
+          <input type="file" name="modelo_file" accept=".h5,.pkl,.joblib,.pt,.pth,.onnx" required />
+        </div>
+        <div class="form-group">
+          <label>Archivo TXT</label>
+          <input type="file" name="txt_file" accept=".txt" required>
+        </div>
+        <button type="submit"> Subir Modelo</button>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <h2> Historial de Modelos</h2>
+        <div class="table-count">Total: <span id="count">0</span></div>
+      </div>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Versión</th>
+            <th>Fecha</th>
+            <th>Archivo</th>
+            <th>Archivo TXT</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in modelos %}
+          <tr>
+            <td>{{ m.id }}</td>
+            <td>{{ m.version }}</td>
+            <td>{{ m.fecha }}</td>
+            <td>
+              <span class="file-path-tooltip" data-fullpath="{{ m.archivo }}">
+                <span class="file-path">{{ m.archivo }}</span>
+              </span>
+            </td>
+            <td>
+              <span class="file-path-tooltip" data-fullpath="{{ m.txt_archivo }}">
+                <span class="file-path">{{ m.txt_archivo }}</span>
+              </span>
+            </td>
+            <td>
+              <form action="/modelos/{{ m.id }}/eliminar" method="post" style="display:inline;">
+                <button type="submit" class="delete-btn" onclick="return confirm('¿Seguro que quieres eliminar este modelo?');">
+                  🗑️ Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <div class="empty-state-icon">📦</div>
+                <div class="empty-state-text">No hay modelos registrados aún</div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button id="ver-ultimo-btn" class="action-btn">
+         Ver Último Modelo
+      </button>
+    </div>
+
+    <a href="/" class="back-link">⬅ Volver al Dashboard</a>
+  </div>
+
+  <!-- Modal para mostrar último modelo -->
+  <div id="ultimo-modelo-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2> Último Modelo Registrado</h2>
+        <button class="close-modal" onclick="closeModal()">×</button>
+      </div>
+      <div id="modelo-content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Cargando información del modelo...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Convertir fecha de datetime-local al formato requerido por el backend
+    const form = document.querySelector('form');
+    const fechaLocal = document.getElementById('fecha-local');
+    const fechaHidden = document.getElementById('fecha-hidden');
+
+    form.addEventListener('submit', function(e) {
+      if (fechaLocal.value) {
+        const fecha = new Date(fechaLocal.value);
+        const year = fecha.getFullYear();
+        const month = String(fecha.getMonth() + 1).padStart(2, '0');
+        const day = String(fecha.getDate()).padStart(2, '0');
+        const hours = String(fecha.getHours()).padStart(2, '0');
+        const minutes = String(fecha.getMinutes()).padStart(2, '0');
+        const seconds = '00';
+        
+        fechaHidden.value = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }
+    });
+
+    // Contar filas de la tabla
+    const rows = document.querySelectorAll('tbody tr');
+    const emptyState = document.querySelector('.empty-state');
+    const count = emptyState ? 0 : rows.length;
+    document.getElementById('count').textContent = count;
+
+    // Mostrar nombre del archivo seleccionado
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+      input.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+          const fileName = this.files[0].name;
+          const fileSize = (this.files[0].size / 1024 / 1024).toFixed(2);
+          let fileInfo = this.parentElement.querySelector('.file-info');
+          if (!fileInfo) {
+            fileInfo = document.createElement('div');
+            fileInfo.className = 'file-info';
+            this.parentElement.appendChild(fileInfo);
+          }
+          fileInfo.innerHTML = ` <strong>Archivo seleccionado:</strong> ${fileName} (${fileSize} MB)`;
+        }
+      });
+    });
+
+    // Modal para ver último modelo
+    const modal = document.getElementById('ultimo-modelo-modal');
+    const verUltimoBtn = document.getElementById('ver-ultimo-btn');
+    const modeloContent = document.getElementById('modelo-content');
+
+    verUltimoBtn.addEventListener('click', async () => {
+      modal.classList.add('active');
+      modeloContent.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Cargando información del modelo...</p>
+        </div>
+      `;
+
+      try {
+        const response = await fetch('/modelos/ultimo');
+        const data = await response.json();
+
+        if (data.error) {
+          modeloContent.innerHTML = `
+            <div class="error-message">
+              ❌ ${data.error}
+            </div>
+          `;
+        } else {
+          modeloContent.innerHTML = `
+            <div class="model-details">
+              <div class="detail-item">
+                <div class="detail-label"> ID</div>
+                <div class="detail-value">${data.id || 'N/A'}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label"> Versión</div>
+                <div class="detail-value">${data.version || 'N/A'}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label"> Fecha</div>
+                <div class="detail-value">${data.fecha || 'N/A'}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label"> Archivo del Modelo</div>
+                <div class="detail-value">${data.archivo || 'N/A'}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label"> Archivo TXT</div>
+                <div class="detail-value">${data.txt_archivo || 'N/A'}</div>
+              </div>
+            </div>
+            <div class="json-code">${JSON.stringify(data, null, 2)}</div>
+          `;
+        }
+      } catch (error) {
+        modeloContent.innerHTML = `
+          <div class="error-message">
+             Error al cargar el modelo: ${error.message}
+          </div>
+        `;
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    // Cerrar modal al hacer clic fuera
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Cerrar modal con tecla ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

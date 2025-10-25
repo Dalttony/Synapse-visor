@@ -1,0 +1,14 @@
+body { font-family: Inter, Arial, sans-serif; background:#f3f6fb; color:#1f2937; margin:0; padding:20px; }
+.container{ max-width:900px; margin:0 auto; }
+h1{ color:#0f172a; }
+.cards{ display:flex; gap:16px; margin:20px 0; }
+.card{ background:white; padding:18px; border-radius:10px; box-shadow:0 4px 14px rgba(2,6,23,0.06); text-decoration:none; color:inherit;}
+.card.blue{ background: linear-gradient(135deg,#3b82f6,#60a5fa); color:white; }
+.card.green{ background: linear-gradient(135deg,#10b981,#34d399); color:white; }
+form.card{ display:flex; flex-direction:column; gap:8px; max-width:600px; margin-bottom:20px;}
+input[type="text"], input[type="datetime-local"], input[type="file"]{ padding:8px; border-radius:6px; border:1px solid #e6eef8; }
+button{ padding:10px 14px; background:#2563eb; color:white; border:none; border-radius:8px; cursor:pointer; }
+.table{ width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(2,6,23,0.06);}
+.table th, .table td{ padding:10px; border-bottom:1px solid #eef2f7; text-align:left; }
+.actions{ margin:12px 0; }
+a{ color:#2563eb; }

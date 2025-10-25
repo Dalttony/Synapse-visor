@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SIOMA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card.blue::before {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card.green::before {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:active {
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .card.blue .card-icon {
+      filter: drop-shadow(0 4px 6px rgba(102, 126, 234, 0.4));
+    }
+
+    .card.green .card-icon {
+      filter: drop-shadow(0 4px 6px rgba(245, 87, 108, 0.4));
+    }
+
+    .card:hover .card-icon {
+      filter: drop-shadow(0 6px 12px rgba(255, 255, 255, 0.8));
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover .card-title {
+      color: white;
+    }
+
+    .card-description {
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+      margin-top: 0.5rem;
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover .card-description {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .card {
+        min-height: 180px;
+        padding: 2rem 1.5rem;
+      }
+
+      .card-icon {
+        font-size: 2.8rem;
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard SIOMA</h1>
+    <p class="subtitle"></p>
+    
+    <div class="cards">
+     
+      
+      <a class="card green" href="/modelos">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">Gestión de Modelos</div>
+        <div class="card-description"></div>
+      </a>
+
+      <a class="card green" href="/asistencias">
+        <div class="card-icon">📓</div>
+        <div class="card-title">Asistencias</div>
+        <div class="card-description"></div>
+      </a>
+    </div>
+
+    <div class="footer">
+      © 2025 SIOMA - Sistema de Monitoreo
+    </div>
+  </div>
+</body>
+</html>
